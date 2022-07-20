@@ -1,23 +1,44 @@
-const loadText = document.querySelector('.loading-text')
-const bg = document.querySelector('.bg')
+const img = document.getElementById(`img`);
+const counterContainer = document.getElementById(`counter`);
 
-let load = 0
+max = 1400;
+min = 400;
+let ran1 = Math.floor(Math.random() * (max - min) + min);
+let ran2 = Math.floor(Math.random() * (max - min) + min);
 
-let int = setInterval(blurring, 30)
+const imgSites = [
+  `https://thecatapi.com/api/images/get?format=src&type=gif`,
+  `https://placebear.com/${ran1}/${ran2}`,
+  `https://placekitten.com/${ran1}/${ran2}`,
+  `https://unsplash.it/${ran1}/${ran2}`,
+  `https://placeimg.com/${ran1}/${ran2}/nature`,
+  `https://www.placecage.com/${ran1}/${ran2}`,
+];
 
-function blurring() {
-  load++
+const getRandomImg = () => {
+  return imgSites[Math.floor(Math.random() * imgSites.length)];
+};
 
-  if (load > 99) {
-    clearInterval(int)
-  }
+img.style.setProperty(
+  `background`,
+  `url(${getRandomImg()}) no-repeat center center/contain`
+);
 
-  loadText.innerText = `${load}%`
-  loadText.style.opacity = scale(load, 0, 100, 1, 0)
-  bg.style.filter = `blur(${scale(load, 0, 100, 30, 0)}px)`
-}
+window.addEventListener(`load`, () => {
+  counterContainer.textContent = `0%`;
+  let counter = -1;
+  let blurValue = 100;
+  let interval = setInterval(() => {
+    counterContainer.textContent = `${++counter}%`;
+    img.style.setProperty(`filter`, `blur(${blurValue - counter}px)`);
+    if (counter === 100) {
+      clearInterval(interval);
+      counterContainer.remove();
+    }
+  }, 100);
+});
 
-// https://stackoverflow.com/questions/10756313/javascript-jquery-map-a-range-of-numbers-to-another-range-of-numbers
-const scale = (num, in_min, in_max, out_min, out_max) => {
-  return ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
-}
+window.addEventListener(`DOMContentLoaded`, () => {
+  document.querySelector(`body`).style.background = `#333`;
+  counterContainer.textContent = `Waiting for the image...`;
+});
