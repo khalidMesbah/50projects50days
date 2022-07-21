@@ -13,7 +13,7 @@ body {
 
 .slider-container {
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
   width: 100vw;
   height: 100vh;
 }
@@ -84,13 +84,13 @@ button:focus {
   z-index: 100;
 }
 
-.slider-container .action-buttons .down-button {
+.slider-container .action-buttons .down-btn {
   transform: translateX(-100%);
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
 
-.slider-container .action-buttons .up-button {
+.slider-container .action-buttons .up-btn {
   transform: translateY(-100%);
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;

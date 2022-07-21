@@ -1,10 +1,31 @@
-const sliderContainer = document.querySelector('.slider-container')
-const slideRight = document.querySelector('.right-slide')
-const slideLeft = document.querySelector('.left-slide')
-const upButton = document.querySelector('.up-button')
-const downButton = document.querySelector('.down-button')
-const slidesLength = slideRight.querySelectorAll('div').length
+const sliderContainer = document.querySelector('.slider-container');
+const slideRight = document.querySelector('.right-slide');
+const slideLeft = document.querySelector('.left-slide');
+const btns = document.querySelectorAll('.btn');
+const slidesNumber = slideRight.querySelectorAll('div').length;
 
+let counter = 0;
+slideLeft.style.top = `-${(slidesNumber - 1) * 100}%`;
+
+const changeSlide = (event) => {
+    const btnClasses = event.currentTarget.classList;
+
+    if (btnClasses.contains(`up-btn`)) (counter === slidesNumber - 1) ? counter = 0 : counter++;
+    else if (btnClasses.contains(`down-btn`)) (counter === 0) ? counter = slidesNumber - 1 : counter--;
+
+    slideLeft.style.transform = `translateY(${counter * 100}%)`;
+    slideRight.style.transform = `translateY(-${counter * 100}%)`;
+};
+
+btns.forEach(btn => btn.addEventListener(`click`, changeSlide));
+
+
+
+
+
+
+
+/*
 let activeSlideIndex = 0
 
 slideLeft.style.top = `-${(slidesLength - 1) * 100}vh`
@@ -28,4 +49,4 @@ const changeSlide = (direction) => {
 
     slideRight.style.transform = `translateY(-${activeSlideIndex * sliderHeight}px)`
     slideLeft.style.transform = `translateY(${activeSlideIndex * sliderHeight}px)`
-}
+} */
