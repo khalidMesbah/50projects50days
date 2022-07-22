@@ -1,42 +1,46 @@
-const result = document.getElementById('result')
-const filter = document.getElementById('filter')
-const listItems = []
-
-getData()
-
-filter.addEventListener('input', (e) => filterData(e.target.value))
-
-async function getData() {
-    const res = await fetch('https://randomuser.me/api?results=50')
-
-    const { results } = await res.json()
-
-    // Clear result
-    result.innerHTML = ''
-
-    results.forEach(user => {
-        const li = document.createElement('li')
-
-        listItems.push(li)
-
-        li.innerHTML = `
-            <img src="${user.picture.large}" alt="${user.name.first}">
-            <div class="user-info">
-                <h4>${user.name.first} ${user.name.last}</h4>
-                <p>${user.location.city}, ${user.location.country}</p>
-            </div>
-        `
-
-        result.appendChild(li)
-    })
-}
-
-function filterData(searchTerm) {
-    listItems.forEach(item => {
-        if(item.innerText.toLowerCase().includes(searchTerm.toLowerCase())) {
-            item.classList.remove('hide')
-        } else {
-            item.classList.add('hide')
-        }
-    })
-}
+/* variables */
+const result = document.getElementById(`result`);
+const input = document.getElementById(`filter`);
+/* functions */
+const getUsers = async () => {
+    try {
+        result.innerHTML = ``;
+        const response = await fetch(`https://randomuser.me/api/?results=100`).then(res => res.json());
+        const users = response.results;
+        users.forEach(user => {
+            AddUser({ name: { first, last }, location: { city, country }, picture: { thumbnail } } = user);
+        });
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+const AddUser = (user) => {
+    const li = document.createElement(`li`);
+    const img = document.createElement(`img`);
+    img.src = user.picture.thumbnail;
+    img.alt = user.name.first;
+    li.appendChild(img);
+    const userInfo = document.createElement(`div`);
+    userInfo.classList.add(`user-info`);
+    const h4 = document.createElement(`h4`);
+    h4.textContent = user.name.first + ' ' + user.name.last;
+    const p = document.createElement(`p`);
+    p.textContent = user.location.city + ', ' + user.location.country;
+    userInfo.appendChild(h4);
+    userInfo.appendChild(p);
+    li.appendChild(userInfo);
+    result.appendChild(li);
+};
+const filterUsers = () => {
+    const wantedUserName = input.value.toLowerCase();
+    const users = document.querySelectorAll(`#result li`);
+    users.forEach(user => {
+        const userName = user.children[1].children[0].textContent.toLowerCase();
+        if (userName.indexOf(wantedUserName) === -1) user.classList.add(`hide`);
+        else user.classList.remove(`hide`);
+    });
+};
+/* initial users */
+getUsers();
+/* event listeners */
+input.addEventListener(`input`, filterUsers);
