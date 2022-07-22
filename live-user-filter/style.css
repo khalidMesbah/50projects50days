@@ -1,12 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   background-color: #f8f9fd;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,7 +19,7 @@ body {
 
 .container {
   border-radius: 5px;
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 3px 3px 10px hsla(0, 0%, 0%, 0.2);
   overflow: hidden;
   width: 300px;
 }
@@ -66,19 +68,24 @@ body {
   padding: 20px;
 }
 
-.user-list img {
+.user-list img,
+.user-list .img {
   border-radius: 50%;
   object-fit: cover;
   height: 50px;
+  min-height: 50px;
   width: 50px;
+  min-width: 50px;
 }
 
 .user-list .user-info {
   margin-left: 10px;
-}
-
-.user-list .user-info h4 {
-  margin: 0 0 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
 .user-list .user-info p {
@@ -91,4 +98,33 @@ body {
 
 .user-list li.hide {
   display: none;
+}
+
+/* loading animation */
+.animated-bg {
+  background-image: linear-gradient(
+    to right,
+    #3e57db 0%,
+    #aea7ab 5%,
+    #3e57db 10%,
+    #3e57db 100%
+  );
+  background-size: 200% 100%;
+  animation: bgPos 1s linear infinite;
+}
+
+.animated-bg-text {
+  border-radius: 50px;
+  height: 10px;
+  width: 100%;
+}
+
+@keyframes bgPos {
+  0% {
+    background-position: 50% 0;
+  }
+
+  100% {
+    background-position: -150% 0;
+  }
 }

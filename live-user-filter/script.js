@@ -4,9 +4,9 @@ const input = document.getElementById(`filter`);
 /* functions */
 const getUsers = async () => {
     try {
-        result.innerHTML = ``;
         const response = await fetch(`https://randomuser.me/api/?results=100`).then(res => res.json());
         const users = response.results;
+        result.innerHTML = ``;
         users.forEach(user => {
             AddUser({ name: { first, last }, location: { city, country }, picture: { thumbnail } } = user);
         });
