@@ -11,6 +11,7 @@ const getUsers = async () => {
             AddUser({ name: { first, last }, location: { city, country }, picture: { thumbnail } } = user);
         });
     } catch (error) {
+        result.innerHTML = `Ooops, try again`;
         throw new Error(error);
     }
 };
@@ -32,12 +33,12 @@ const AddUser = (user) => {
     result.appendChild(li);
 };
 const filterUsers = () => {
-    const wantedUserName = input.value.toLowerCase();
+    const filterUserRegex = new RegExp(input.value, `gi`);
     const users = document.querySelectorAll(`#result li`);
     users.forEach(user => {
-        const userName = user.children[1].children[0].textContent.toLowerCase();
-        if (userName.indexOf(wantedUserName) === -1) user.classList.add(`hide`);
-        else user.classList.remove(`hide`);
+        const userName = user.children[1].children[0].textContent;
+        if (filterUserRegex.test(userName)) user.classList.remove(`hide`);
+        else user.classList.add(`hide`);
     });
 };
 /* initial users */
