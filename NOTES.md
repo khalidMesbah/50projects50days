@@ -1,0 +1,1 @@
+- use scale function at blurry loading
