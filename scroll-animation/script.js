@@ -1,19 +1,13 @@
-const boxes = document.querySelectorAll('.box')
-
-window.addEventListener('scroll', checkBoxes)
-
-checkBoxes()
-
-function checkBoxes() {
-    const triggerBottom = window.innerHeight / 5 * 4
-
-    boxes.forEach(box => {
-        const boxTop = box.getBoundingClientRect().top
-
-        if(boxTop < triggerBottom) {
-            box.classList.add('show')
-        } else {
-            box.classList.remove('show')
-        }
-    })
-}
+const boxes = document.querySelectorAll(`.box`);
+const containers = document.querySelectorAll(`.container`);
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      entry.target.children[0].classList.toggle(`show`, entry.isIntersecting);
+    });
+  },
+  {
+    threshold: 0.5,
+  }
+);
+containers.forEach((container) => observer.observe(container));
