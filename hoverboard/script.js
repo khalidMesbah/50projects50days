@@ -1,29 +1,40 @@
-const container = document.getElementById('container')
-const colors = ['#e74c3c', '#8e44ad', '#3498db', '#e67e22', '#2ecc71']
-const SQUARES = 500
-
-for(let i = 0; i < SQUARES; i++) {
-    const square = document.createElement('div')
-    square.classList.add('square')
-
-    square.addEventListener('mouseover', () => setColor(square))
-
-    square.addEventListener('mouseout', () => removeColor(square))
-
-    container.appendChild(square)
-}
-
-function setColor(element) {
-   const color = getRandomColor()
-   element.style.background = color
-   element.style.boxShadow = `0 0 2px ${color}, 0 0 10px ${color}`
-}
-
-function removeColor(element) {
-   element.style.background = '#1d1d1d'
-   element.style.boxShadow = '0 0 2px #000'
-}
-
-function getRandomColor() {
-    return colors[Math.floor(Math.random() * colors.length)]
-}
+/* Variables */
+const form = document.getElementById(`form`);
+const container = document.getElementById("container");
+let SQUARES = document.getElementById(`number-of-squares`).value || 500;
+/* Functions */
+const getRandomColor = () => {
+  return `rgb(${Math.ceil(Math.random() * 255)},${Math.ceil(
+    Math.random() * 255
+  )},${Math.ceil(Math.random() * 255)})`;
+};
+const activate = (e) => {
+  let square = e.currentTarget;
+  square.style.background = square.style.color = getRandomColor();
+  square.style.boxShadow = `0 0 2px ,0 0 10px`;
+};
+const deActivate = (e) => {
+  let square = e.currentTarget;
+  square.style.removeProperty(`background`);
+  square.style.removeProperty(`box-shadow`);
+};
+const createSquare = (fragment) => {
+  const square = document.createElement(`div`);
+  square.className = `square`;
+  square.addEventListener(`mouseenter`, activate);
+  square.addEventListener(`mouseleave`, deActivate);
+  fragment.appendChild(square);
+};
+const displaySquares = (numOfSquares) => {
+  const fragment = document.createDocumentFragment();
+  for (let i = 0; i < numOfSquares; i++, createSquare(fragment));
+  container.innerHTML = ``;
+  container.appendChild(fragment);
+};
+displaySquares(SQUARES);
+/* Event Listeners */
+form.addEventListener(`submit`, (e) => {
+  e.preventDefault();
+  SQUARES = document.getElementById(`number-of-squares`).value || 500;
+  displaySquares(SQUARES);
+});
